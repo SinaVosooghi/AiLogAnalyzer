@@ -3,6 +3,7 @@ import { ConfigModule } from "@nestjs/config";
 import { plainToInstance } from "class-transformer";
 import { validateSync } from "class-validator";
 import { EnvironmentVariables } from "./validation.schema";
+import { AppConfigService } from "./config.service";
 
 function validateConfig(config: Record<string, unknown>) {
   const validatedConfig = plainToInstance(EnvironmentVariables, config, {
@@ -26,5 +27,7 @@ function validateConfig(config: Record<string, unknown>) {
       validate: validateConfig,
     }),
   ],
+  providers: [AppConfigService],
+  exports: [AppConfigService],
 })
 export class CustomConfigModule {}

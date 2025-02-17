@@ -1,4 +1,4 @@
-import { IsEnum, IsInt, IsUrl } from "class-validator";
+import { IsEnum, IsInt, IsString } from "class-validator";
 
 export enum Environment {
   Development = "development",
@@ -15,6 +15,6 @@ export class EnvironmentVariables {
   @IsInt({ message: "PORT must be an integer" })
   PORT: number;
 
-  @IsUrl(undefined, { message: "DATABASE_URL must be a valid URL" })
+  @IsString({ message: "DATABASE_URL must be a valid URL" })
   DATABASE_URL: string;
 }

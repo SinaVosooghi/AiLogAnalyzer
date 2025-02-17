@@ -16,4 +16,8 @@ export class AppConfigService {
   get databaseUrl(): string {
     return this.configService.get<string>("DATABASE_URL", "");
   }
+
+  get isDatabaseSync(): boolean {
+    return this.nodeEnv === "development";
+  }
 }

@@ -6,6 +6,8 @@ import { AiAnalysisModule } from "./ai-analysis/ai-analysis.module";
 import { AuthModule } from "./auth/auth.module";
 import { MonitoringModule } from "./monitoring/monitoring.module";
 import { CustomConfigModule } from "./config/config.module";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { AppConfigService } from "./config/config.service";
 
 @Module({
   imports: [
@@ -14,6 +16,16 @@ import { CustomConfigModule } from "./config/config.module";
     AuthModule,
     MonitoringModule,
     CustomConfigModule,
+    TypeOrmModule.forRootAsync({
+      imports: [CustomConfigModule],
+      inject: [AppConfigService],
+      useFactory: (config: AppConfigService) => ({
+        type: "postgres",
+        url: config.databaseUrl,
+        autoLoadEntities: true,
+        synchronize: config.isDatabaseSync,
+      }),
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
